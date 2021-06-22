@@ -1,0 +1,38 @@
+name: second-workflow
+on: push
+jobs:
+  job1:
+    name: first job
+    runs-on: ubuntu-latest
+    steps:
+    - name: step one
+      uses: actions/checkout@v2
+    - name: step two
+      run: env | sort
+  job2:
+   name: second job
+    runs-on: windows-latest
+    steps:
+    - name: step one
+      uses: actions/checkout@v2
+    - name: step two
+      run: "Get-ChildItem Env | Sort-Object Name"
+  job3:
+   name: third job
+    runs-on: macos-latest
+    steps:
+    - name: step one
+      uses: actions/checkout@v2
+    - name: step two
+      run: env | sort
+  job4:
+    needs: [job1, job2, job3]
+    name: last job
+    runs-on: ubuntu-latest
+    steps:
+    - name: step one
+      uses: echo "Jobs 1, 2 and 3 completed"
+    - name: step two
+      run: |
+        echo Job 4 done
+        echo Workflow completed
